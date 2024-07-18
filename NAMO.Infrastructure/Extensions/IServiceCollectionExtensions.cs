@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using NAMO.Application.Interfaces;
+using NAMO.Domain.Common;
 using NAMO.Infrastructure.Services;
 
 namespace NAMO.Infrastructure.Extensions
@@ -18,7 +19,8 @@ namespace NAMO.Infrastructure.Extensions
                 AddTransient<IMediator, Mediator>().
                 AddScoped<IPatiVerService, PatiVerService>().
                 AddTransient<ISeparatePersonsService, SeparatePersonsService>().
-                AddTransient<IAvailableMOService, AvailableMOService>();
+                AddTransient<IAvailableMOService, AvailableMOService>().
+                AddTransient<IHttpContextService, HttpContextService>();
         }
     }
 }
