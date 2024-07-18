@@ -1,13 +1,19 @@
+using Microsoft.AspNetCore.HttpOverrides;
 using NAMO.Application.Extensions;
+using NAMO.Application.Extensions.LayoutRenderers;
 using NAMO.Infrastructure.Extensions;
 using NAMO.Persistence.Extensions;
 using NLog;
 using NLog.Web;
+using System.Net;
 
 //Загружаем кастомные классы для Nlog
 LogManager.Setup().SetupExtensions(s =>
 {
     s.RegisterLayoutRenderer<OperationHashLayoutRenderer>("operationHash");
+    s.RegisterLayoutRenderer<ClientIpAddressLayoutRenderer>("clientIpAddress");
+    s.RegisterLayoutRenderer<RequestEndpointLayoutRenderer>("requestEndpoint");
+    s.RegisterLayoutRenderer<RequestMethodLayoutRenderer>("requestMethod");
 });
 
 var logger = NLog.LogManager.Setup()
@@ -18,6 +24,8 @@ logger.Debug("Запуск приложения");
 try
 {
     var builder = WebApplication.CreateBuilder(args);
+
+    builder.Services.AddHttpContextAccessor();
 
     // Добавляем логгер
     builder.Logging.ClearProviders();
@@ -36,6 +44,12 @@ try
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
+    builder.Services.Configure<ForwardedHeadersOptions>(options =>
+    {
+        options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+        options.KnownProxies.Add(IPAddress.Parse("127.0.0.1"));
+    });
+
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.
@@ -45,11 +59,16 @@ try
         app.UseSwaggerUI();
     }
 
+    app.UseForwardedHeaders();
+    app.UseRouting();
+
     app.UseHttpsRedirection();
 
     app.UseAuthorization();
 
     app.MapControllers();
+
+    app.MapGet("/", () => "NAMO работает!");
 
     app.Run();
 
@@ -61,5 +80,6 @@ catch(Exception ex)
 }
 finally
 {
+    logger.Debug("Приложение остановлено");
     NLog.LogManager.Shutdown();
 }
