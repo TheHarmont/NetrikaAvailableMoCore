@@ -39,7 +39,7 @@ namespace NAMO.Application.Features.Patients.Queries.GetAvailableMoIds
         {
             var patient = query.Request;
 
-            using (ScopeContext.PushProperty("OperationHash", OperationProvider.GetHash(patient)))
+            using (ScopeContext.PushProperty("OperationHash", OperationHash.GetHash(patient)))
             {
                 try
                 {
