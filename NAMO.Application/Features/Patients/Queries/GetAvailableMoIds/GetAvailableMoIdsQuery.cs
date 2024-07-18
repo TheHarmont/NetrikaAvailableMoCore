@@ -43,7 +43,7 @@ namespace NAMO.Application.Features.Patients.Queries.GetAvailableMoIds
             {
                 try
                 {
-                    _logger.LogInformation($"Начата обработка запроса (ФИО: {patient.FirstName} {patient.LastName} {patient.MiddleName} | ПОЛИС: {patient.Polis} СНИЛС: {patient.SNILS})");
+                    _logger.LogInformation($"Начата обработка запроса (ФИО: {patient.FirstName} {patient.LastName} {patient.MiddleName} {patient.BirthDate} | ПОЛИС: {patient.Polis} СНИЛС: {patient.SNILS})");
 
                     if (!patient.IsValid()) throw new AvailableMoQueryException("Данные не прошли валидацию");
 
@@ -53,7 +53,7 @@ namespace NAMO.Application.Features.Patients.Queries.GetAvailableMoIds
 
                     //Для всех остальных пациентов нужно выполнить верификацию,
                     //получить их прикрепление и отфильтровать список МО по входным параметрам
-
+                     
                     //Получаем информацию о пациенте
                     var patientInfo = _patiVerService.GetPersonResponseDTOByFIO(patient);
 
