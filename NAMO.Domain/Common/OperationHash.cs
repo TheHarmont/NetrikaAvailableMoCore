@@ -1,8 +1,13 @@
 ﻿using NAMO.Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace NAMO.Domain.Common
 {
-    public static class OperationProvider
+    public static class OperationHash
     {
         /// <summary>
         /// Возвращает хэш строки
@@ -11,11 +16,11 @@ namespace NAMO.Domain.Common
         public static string GetHash(PatientInfoRequest req)
         {
             return string.Format("{0:X}", (
-                req.LastName + 
-                req.FirstName + 
+                req.LastName +
+                req.FirstName +
                 req.MiddleName +
-                req.Polis+
-                req.SNILS + 
+                req.Polis +
+                req.SNILS +
                 DateTime.Now.ToString()).GetHashCode());
         }
     }
