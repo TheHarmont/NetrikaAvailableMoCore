@@ -3,7 +3,7 @@ using NLog;
 using NLog.LayoutRenderers;
 using System.Text;
 
-namespace NAMO.Application.Extensions
+namespace NAMO.Application.Extensions.LayoutRenderers
 {
     [LayoutRenderer("operationHash")]
     public class OperationHashLayoutRenderer : LayoutRenderer
