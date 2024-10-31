@@ -28,7 +28,7 @@ public class AvailableMoController
             var validastor = new GetAvailableMoIdsValidator();
             bool isValid = validastor.Validate(query);
 
-            if (!isValid) LogAndReturnFailure(RequestInvalid);
+            if (!isValid) return LogAndReturnFailure(RequestInvalid);
 
             var result = await mediator.Send(query);
 
@@ -43,7 +43,8 @@ public class AvailableMoController
     {
         var logEvent = new LogEventInfo(NLog.LogLevel.Info, null, $"{RequestStarted}");
         // Добавляем в лог параметр "message-data", хранящий входные данные
-        logEvent.Properties["message-data"] = string.Join(JsonSerializer.Serialize(new
+
+        logEvent.Properties["message-data"] = JsonSerializer.Serialize(new
         {
             query.PolisS,
             query.PolisN,
@@ -53,7 +54,7 @@ public class AvailableMoController
             query.BirthDate,
             query.Sex,
             query.SNILS,
-        }));
+        }, new JsonSerializerOptions { Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping });
         _logger.Log(logEvent);
     }
 
@@ -67,9 +68,9 @@ public class AvailableMoController
                 Message = null
             };
 
-        var logEvent = new LogEventInfo(NLog.LogLevel.Info, null, $"{RequestStarted}");
+        var logEvent = new LogEventInfo(NLog.LogLevel.Info, null, $"{RequestFinished}");
         // Добавляем в лог параметр "message-data", хранящий выходные данные
-        logEvent.Properties["message-data"] = string.Join(JsonSerializer.Serialize(request));
+        logEvent.Properties["message-data"] = JsonSerializer.Serialize(request, new JsonSerializerOptions { Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping });
         _logger.Log(logEvent);
         return request;
     }
@@ -86,9 +87,9 @@ public class AvailableMoController
 
         if (ex is null)
         {
-            var logEvent = new LogEventInfo(NLog.LogLevel.Info, null, $"{RequestStarted}");
+            var logEvent = new LogEventInfo(NLog.LogLevel.Info, null, message);
             // Добавляем в лог параметр "message-data", хранящий выходные данные
-            logEvent.Properties["message-data"] = string.Join(JsonSerializer.Serialize(emptyRequest));
+            logEvent.Properties["message-data"] = JsonSerializer.Serialize(emptyRequest, new JsonSerializerOptions { Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping });
             _logger.Log(logEvent);
         }
         else

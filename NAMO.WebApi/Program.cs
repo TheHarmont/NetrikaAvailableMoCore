@@ -7,7 +7,7 @@ using NLog;
 using NLog.Web;
 using System.Net;
 
-//Загружаем кастомные классы для Nlog
+//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ Nlog
 LogManager.Setup().SetupExtensions(s =>
 {
     s.RegisterLayoutRenderer<CustomLayoutRenderer>("custom");
@@ -16,7 +16,7 @@ LogManager.Setup().SetupExtensions(s =>
 var logger = NLog.LogManager.Setup()
         .LoadConfigurationFromAppSettings()
         .GetCurrentClassLogger();
-logger.Debug("Запуск приложения");
+logger.Debug("РџСЂРёР»РѕР¶РµРЅРёРµ Р·Р°РїСѓС‰РµРЅР°");
 
 try
 {
@@ -24,7 +24,7 @@ try
 
     builder.Services.AddHttpContextAccessor();
 
-    // Добавляем логгер
+    // Р’РЅРµРґСЂРµРЅРёРµ СЃРµСЂРІРёСЃРѕРІ
     builder.Logging.ClearProviders();
     builder.Logging.SetMinimumLevel
             (Microsoft.Extensions.Logging.LogLevel.Trace);
@@ -41,13 +41,12 @@ try
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
-    builder.Services.Configure<ForwardedHeadersOptions>(options =>
-    {
-        options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-        options.KnownProxies.Add(IPAddress.Parse("127.0.0.1"));
-    });
-
     var app = builder.Build();
+
+    app.UseForwardedHeaders(new ForwardedHeadersOptions
+    {
+        ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+    });
 
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
@@ -65,18 +64,18 @@ try
 
     app.MapControllers();
 
-    app.MapGet("/", () => "NAMO работает!");
+    app.MapGet("/", () => "NAMO СЂР°Р±РѕС‚Р°РµС‚!");
 
     app.Run();
 
 }
 catch(Exception ex)
 {
-    logger.Error(ex, $"Остановлено из-за исключения: {ex.Message}");
+    logger.Error(ex, $"РћСЃС‚Р°РЅРѕРІР»РµРЅРѕ РёР·-Р·Р° РёСЃРєР»СЋС‡РµРЅРёСЏ: {ex.Message}");
     throw;
 }
 finally
 {
-    logger.Debug("Приложение остановлено");
+    logger.Debug("РџСЂРёР»РѕР¶РµРЅРёРµ РѕСЃС‚Р°РЅРѕРІР»РµРЅРѕ");
     NLog.LogManager.Shutdown();
 }

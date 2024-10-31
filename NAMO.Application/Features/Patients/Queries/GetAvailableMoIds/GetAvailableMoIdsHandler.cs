@@ -46,6 +46,6 @@ internal class GetAvailableMoIdsHandler
 
     private bool ValidatePolisAndSnils(GetAvailableMoIdsQuery query, PersonResponse patientData)
     {
-        return patientData.PolisData.Num == query.Polis && query.SNILS.SnilsEquals(patientData.PatientData.Snils);
+        return patientData.PolisData.Num == query.Polis || query.SNILS.SnilsEquals(patientData.PatientData.Snils);
     }
 }

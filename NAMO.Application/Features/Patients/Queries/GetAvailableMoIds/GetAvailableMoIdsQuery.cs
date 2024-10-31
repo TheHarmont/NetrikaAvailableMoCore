@@ -22,7 +22,7 @@ public record GetAvailableMoIdsQuery : IRequest<Result<List<int>>>
     /// </summary>
     public string? MiddleName { get; set; }
     public string? BirthDate { get; set; }
-    public DateTime? ParsedBirthDate { get; private set; }
+    public DateTime? ParsedBirthDate => GetDateTimeBirthDate(this);
     public string? Sex { get; set; }
 
     public GetAvailableMoIdsQuery()
