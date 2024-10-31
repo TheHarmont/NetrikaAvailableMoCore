@@ -9,40 +9,21 @@ public class SeparatePersonsService(
     ILogger<SeparatePersonsService> logger,
     ISeparatePersonsRepository repository) : ISeparatePersonsService
 {
-    private const string ProcessingStarted = "Начат поиск пациента в особой группе лиц";
-    private const string Success = "Пациент найден";
-    private const string NotFound = "Пациент не найден";
-    private const string MultipleFound = "Найдено больше одной записи";
-
-    private const string GetFailed = "Не удалось получить список id MO";
+    private const string Success = "Пациент найден в особой группе лиц";
 
     public async Task<Result<List<int>>> GetAvailableMoIdsAsync(string? polis)
     {
         try
         {
-            logger.LogInformation(ProcessingStarted);
-
             var separatePersons = await repository.GetSeparatePersonsByPolisAsync(polis);
 
-            if (separatePersons is null || separatePersons.Count == 0)
-            {
-                logger.LogWarning(NotFound);
-                return Result<List<int>>.Failure();
-            }
+            if (separatePersons is null || separatePersons.Count == 0)return Result<List<int>>.Failure();
 
             //Найдено больше одной записи
-            if (separatePersons.Count > 1)
-            {
-                logger.LogWarning(MultipleFound);
-                return Result<List<int>>.Failure();
-            }
+            if (separatePersons.Count > 1)return Result<List<int>>.Failure();
 
             var moList = separatePersons.First()?.MoList;
-            if (string.IsNullOrEmpty(moList))
-            {
-                logger.LogWarning(GetFailed);
-                return Result<List<int>>.Failure();
-            }
+            if (string.IsNullOrEmpty(moList))return Result<List<int>>.Failure();
 
             var result = moList.Split(',')
                                .Select(x => int.TryParse(x, out var id) ? id : (int?)null)
@@ -50,11 +31,7 @@ public class SeparatePersonsService(
                                .Select(id => id.Value)
                                .ToList();
 
-            if (result.Count == 0)
-            {
-                logger.LogWarning(GetFailed);
-                return Result<List<int>>.Failure();
-            }
+            if (result.Count == 0) return Result<List<int>>.Failure();
 
             logger.LogInformation(Success);
             return Result<List<int>>.Success(result);

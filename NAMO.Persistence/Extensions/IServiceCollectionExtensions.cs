@@ -36,6 +36,7 @@ public static class IServiceCollectionExtensions
     private static void AddRepositories(this IServiceCollection services)
     {
         services.
+            AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>)).
             AddScoped<IMORepository, MORepository>().
             AddScoped<ISeparatePersonsRepository, SeparatePersonsRepository>().
             AddScoped<IWcfService, WcfServiceClient>();
