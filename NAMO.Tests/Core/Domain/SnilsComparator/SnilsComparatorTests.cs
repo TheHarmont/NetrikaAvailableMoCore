@@ -1,4 +1,4 @@
-﻿using NAMO.Domain.Common;
+﻿using NAMO.Application.Common;
 using NAMO.Domain.Entities;
 using NAMO.Tests.Core.Domain.PatientModelValidation.Data;
 using NAMO.Tests.Core.Domain.SnilsComparator.Data;

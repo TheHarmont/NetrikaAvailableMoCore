@@ -1,4 +1,4 @@
-﻿using NAMO.Domain.Common;
+﻿using NAMO.Application.Common;
 using NAMO.Domain.Entities.dbEntities;
 using NAMO.Tests.Core.Domain.MOFiler.Data;
 using Xunit;

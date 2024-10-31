@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace NAMO.Tests.Core.Domain.MOFiler
 {
-    public class MoListComparer : IEqualityComparer<MoList>
+    public class MoListComparer : IEqualityComparer<MO>
     {
-        public bool Equals(MoList x, MoList y)
+        public bool Equals(MO x, MO y)
         {
             if (x == null && y == null)
                 return true;
@@ -19,7 +19,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler
             return x.OrdId == y.OrdId;
         }
 
-        public int GetHashCode(MoList obj)
+        public int GetHashCode(MO obj)
         {
             return HashCode.Combine(obj.OrdId);
         }

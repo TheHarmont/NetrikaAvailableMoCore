@@ -8,9 +8,8 @@
       "System.Collections.Generic.Dictionary`2"
     ],
     "namespaceMappings": [
-      "*, PatiVerWcf"
+      "*, NAMO.Persistence.ConnectedService.PatiVer"
     ],
-    "sync": true,
     "targetFramework": "net8.0",
     "typeReuseMode": "All"
   }
