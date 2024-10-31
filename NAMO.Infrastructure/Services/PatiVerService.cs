@@ -1,93 +1,63 @@
-﻿using NAMO.Application.DTOs.Response;
+﻿using Microsoft.Extensions.Logging;
+using NAMO.Application.Common;
+using NAMO.Application.Features.Patients.Queries.GetAvailableMoIds;
 using NAMO.Application.Interfaces;
-using NAMO.Domain.Common;
 using NAMO.Domain.Entities;
-using NAMO.Infrastructure.Mappings;
-using PatiVerWcf;
 
-namespace NAMO.Infrastructure.Services
+namespace NAMO.Infrastructure.Services;
+
+public class PatiVerService(
+    ILogger<PatiVerService> logger,
+    IWcfService client) : IPatiVerService
 {
-    public class PatiVerService : IPatiVerService
+    //Никто не парился на счет защиты подобных данных, ну и я не стал
+    private const string MoId = "999999";
+    private const string Username = "miac";
+    private const string Password = "0b56b6e8baeecb067b481e85e5328b74fb1f6bdc";
+    private const bool IsIPRAFirst = false;
+    private const int Mis = 11;
+
+    private const string ProcessingStarted = "Начат поиск пациента в PatiVer";
+    private const string Success = "Пациент найден";
+    private const string NotFound = "Пациент не найден";
+
+    public async Task<Result<PersonResponse>> GetPatientDataWithAttachmentFromFOMSAsync(GetAvailableMoIdsQuery query)
     {
-        private readonly WcfServiceClient _client;
+        logger.LogInformation(ProcessingStarted);
 
-        public PatiVerService()
+        Result<PersonResponse> response = await TryGetPersonInfoAsync(() =>
+            client.GetPersonInfo_FIOAsync(MoId, query.LastName, query.FirstName, query.MiddleName,
+            query.ParsedBirthDate.ToString(), Username, Password, IsIPRAFirst, Mis),
+            "ФИО");
+
+        if (response.IsSuccess) return response!;
+
+        response = await TryGetPersonInfoAsync(() =>
+            client.GetPersonInfo_PolisAsync(MoId, query.Polis, Username, Password, IsIPRAFirst, Mis),
+            "Полис");
+
+        if (response.IsSuccess) return response!;
+
+        response = await TryGetPersonInfoAsync(() =>
+            client.GetPersonInfo_SNILSAsync(MoId, query.SNILS, Username, Password, IsIPRAFirst, Mis),
+            "Снилс");
+
+        if (response.IsSuccess) return response!;
+
+        logger.LogInformation(NotFound);
+        return Result<PersonResponse>.Failure();
+    }
+
+    private async Task<Result<PersonResponse>> TryGetPersonInfoAsync(Func<Task<PersonResponse>> getPersonInfo, string requestType)
+    {
+        PersonResponse response = await getPersonInfo();
+        // Если не найдено или нет припрепления
+        if (response.SearchResult == "1" || !string.IsNullOrEmpty(response.AttachmentData.CodeMO))
         {
-            _client = new WcfServiceClient();
+            logger.LogInformation($"{Success} из запроса по {requestType}");
+            return Result<PersonResponse>.Success(response);
         }
 
-        public PersonResponseDTO? GetPersonResponseDTOByAllData(PatientInfoRequest patient)
-        {
-            PersonResponseDTO? patientInfo = GetPersonResponseDTOByFIO(patient);
-
-            if (patientInfo is null)
-                patientInfo = GetPersonResponseDTOByPOLIS(patient);
-
-            if (patientInfo is null)
-                patientInfo = GetPersonResponseDTOBySNILS(patient);
-
-            return patientInfo;
-        }
-
-        public PersonResponseDTO? GetPersonResponseDTOByFIO(PatientInfoRequest patient) 
-        {
-            var patientInfo = _client.GetPersonInfo_FIO(
-                patient.CodeFoms, 
-                patient.LastName, 
-                patient.FirstName, 
-                patient.MiddleName, 
-                patient.BirthDate, 
-                patient.UsName, 
-                patient.Pass, 
-                patient.IPRA, 
-                patient.MIS);
-
-            //Если не удалось найти пациента
-            if (patientInfo is null || patientInfo?.SearchResult != "1") return null;
-
-            //Если у пациента нет прикрепления
-            if (string.IsNullOrEmpty(patientInfo?.AttachmentData?.CodeMO)) return null;
-
-            return patientInfo.ConvertPersonResponseToPersonResponseDTO();
-        }
-
-        public PersonResponseDTO? GetPersonResponseDTOBySNILS(PatientInfoRequest patient)
-        {
-            var patientInfo = _client.GetPersonInfo_SNILS(
-                patient.CodeFoms,
-                patient.SNILS,
-                patient.UsName,
-                patient.Pass,
-                patient.IPRA,
-                patient.MIS);
-
-            //Если не удалось найти пациента
-            if (patientInfo is null || patientInfo?.SearchResult != "1") return null;
-
-            //Если у пациента нет прикрепления
-            if (string.IsNullOrEmpty(patientInfo?.AttachmentData?.CodeMO)) return null;
-
-            return patientInfo.ConvertPersonResponseToPersonResponseDTO();
-        }
-
-        public PersonResponseDTO? GetPersonResponseDTOByPOLIS(PatientInfoRequest patient)
-        {
-            var patientInfo = _client.GetPersonInfo_Polis(
-                patient.CodeFoms,
-                (patient.PolisS ?? "") + (patient.PolisN ?? ""),
-                patient.UsName,
-                patient.Pass,
-                patient.IPRA,
-                patient.MIS);
-
-            //Если не удалось найти пациента
-            if (patientInfo is null || patientInfo?.SearchResult != "1") return null;
-
-            //Если у пациента нет прикрепления
-            if (string.IsNullOrEmpty(patientInfo?.AttachmentData?.CodeMO)) return null;
-
-            return patientInfo.ConvertPersonResponseToPersonResponseDTO();
-        }
-
+        return Result<PersonResponse>.Failure();
     }
 }

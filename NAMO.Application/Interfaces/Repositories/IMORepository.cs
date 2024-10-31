@@ -1,31 +1,21 @@
 ﻿using NAMO.Domain.Entities.dbEntities;
 
-namespace NAMO.Application.Interfaces.Repositories
+namespace NAMO.Application.Interfaces.Repositories;
+
+public interface IMORepository
 {
-    public interface IMORepository
-    {
-        /// <summary>
-        /// Возвращает список всех МО из БД
-        /// </summary>
-        /// <exception cref="Exception"></exception>
-        public Task<List<MoList>> GetAllMOsAsync();
+    /// <summary>
+    /// Возвращает список актуальных МО, код которых соответствует коду прикрепления пациента
+    /// </summary>
+    public Task<List<MO>> GetOnlyAttachmentAndActiveMOsByCodeMoAsync(string? codeMO);
 
-        /// <summary>
-        /// Возвращает список актуальных МО, код которых соответствует коду прикрепления пациента
-        /// </summary>
-        /// <exception cref="Exception"></exception>
-        public Task<List<MoList>> GetAttachmentMOsAsync(string? codeMO);
+    /// <summary>
+    /// Возвращает список актуальных МО, работающих без прикрепления
+    /// </summary>
+    public Task<List<MO>> GetNonAttachmentAndActiveMOsAsync();
 
-        /// <summary>
-        /// Возвращает список актуальных МО, работающих без прикрепления
-        /// </summary>
-        /// <exception cref="Exception"></exception>
-        public Task<List<MoList>> GetNonAttachmentMOsAsync();
-
-        /// <summary>
-        /// Возвращает список актуальных МО, которые обязательно должны попасть в ответ.
-        /// </summary>
-        /// <exception cref="Exception"></exception>
-        public Task<List<MoList>> GetObligatoryMOAsync();
-    }
+    /// <summary>
+    /// Возвращает список актуальных МО, которые обязательно должны попасть в ответ.
+    /// </summary>
+    public Task<List<MO>> GetDisplayAnyMOAsync();
 }

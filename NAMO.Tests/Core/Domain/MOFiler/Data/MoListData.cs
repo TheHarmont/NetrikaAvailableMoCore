@@ -11,10 +11,10 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
 {
     public class MoListData
     {
-        public List<MoList> GetNoFilteredMoList()
+        public List<MO> GetNoFilteredMoList()
         {
-            return new List<MoList>{
-                new MoList
+            return new List<MO>{
+                new MO
                 {
                     Id = 1,
                     LpuId = 123,
@@ -28,7 +28,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-001"
                 },
-                new MoList
+                new MO
                 {
                     Id = 2,
                     LpuId = 456,
@@ -42,7 +42,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-002"
                 },
-                new MoList
+                new MO
                 {
                     Id = 3,
                     LpuId = 789,
@@ -56,7 +56,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-003"
                 },
-                new MoList
+                new MO
                 {
                     Id = 4,
                     LpuId = 101112,
@@ -70,7 +70,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-004"
                 },
-                new MoList
+                new MO
                 {
                     Id = 5,
                     LpuId = 131415,
@@ -84,7 +84,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-005"
                 },
-                new MoList
+                new MO
                 {
                     Id = 6,
                     LpuId = 161718,
@@ -98,7 +98,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-006"
                 },
-                new MoList
+                new MO
                 {
                     Id = 7,
                     LpuId = 192021,
@@ -112,7 +112,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-007"
                 },
-                new MoList
+                new MO
                 {
                     Id = 8,
                     LpuId = 222324,
@@ -126,7 +126,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-008"
                 },
-                new MoList
+                new MO
                 {
                     Id = 9,
                     LpuId = 252627,
@@ -140,7 +140,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-009"
                 },
-                new MoList
+                new MO
                 {
                     Id = 10,
                     LpuId = 282930,
@@ -154,7 +154,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-010"
                 },
-                new MoList
+                new MO
                 {
                     Id = 11,
                     LpuId = 313233,
@@ -168,7 +168,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-011"
                 },
-                new MoList
+                new MO
                 {
                     Id = 12,
                     LpuId = 343536,
@@ -182,7 +182,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-012"
                 },
-                new MoList
+                new MO
                 {
                     Id = 13,
                     LpuId = 373839,
@@ -196,7 +196,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-013"
                 },
-                new MoList
+                new MO
                 {
                     Id = 14,
                     LpuId = 404142,
@@ -210,7 +210,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-014"
                 },
-                new MoList
+                new MO
                 {
                     Id = 15,
                     LpuId = 434445,
@@ -224,7 +224,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-015"
                 },
-                new MoList
+                new MO
                 {
                     Id = 16,
                     LpuId = 464748,
@@ -238,7 +238,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-016"
                 },
-                new MoList
+                new MO
                 {
                     Id = 17,
                     LpuId = 495051,
@@ -252,7 +252,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-017"
                 },
-                new MoList
+                new MO
                 {
                     Id = 18,
                     LpuId = 525354,
@@ -266,7 +266,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-018"
                 },
-                new MoList
+                new MO
                 {
                     Id = 19,
                     LpuId = 555657,
@@ -280,7 +280,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-019"
                 },
-                new MoList
+                new MO
                 {
                     Id = 20,
                     LpuId = 585960,
@@ -297,10 +297,10 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
             };
         }
 
-        public List<MoList> GetFilteredMoList_ByAge18OrMore()
+        public List<MO> GetFilteredMoList_ByAge18OrMore()
         {
-            return new List<MoList>{
-                new MoList
+            return new List<MO>{
+                new MO
                 {
                     Id = 2,
                     LpuId = 456,
@@ -314,7 +314,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-002"
                 },
-                new MoList
+                new MO
                 {
                     Id = 5,
                     LpuId = 131415,
@@ -328,7 +328,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-005"
                 },
-                new MoList
+                new MO
                 {
                     Id = 6,
                     LpuId = 161718,
@@ -342,7 +342,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-006"
                 },
-                new MoList
+                new MO
                 {
                     Id = 8,
                     LpuId = 222324,
@@ -356,7 +356,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-008"
                 },
-                new MoList
+                new MO
                 {
                     Id = 10,
                     LpuId = 282930,
@@ -370,7 +370,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-010"
                 },
-                new MoList
+                new MO
                 {
                     Id = 12,
                     LpuId = 343536,
@@ -384,7 +384,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-012"
                 },
-                new MoList
+                new MO
                 {
                     Id = 14,
                     LpuId = 404142,
@@ -398,7 +398,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-014"
                 },
-                new MoList
+                new MO
                 {
                     Id = 16,
                     LpuId = 464748,
@@ -412,7 +412,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-016"
                 },
-                new MoList
+                new MO
                 {
                     Id = 18,
                     LpuId = 525354,
@@ -426,7 +426,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-018"
                 },
-                new MoList
+                new MO
                 {
                     Id = 20,
                     LpuId = 585960,
@@ -443,10 +443,10 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
             };
         }
 
-        public List<MoList> GetFilteredMoList_ByMale()
+        public List<MO> GetFilteredMoList_ByMale()
         {
-            return new List<MoList>{
-                new MoList
+            return new List<MO>{
+                new MO
                 {
                     Id = 1,
                     LpuId = 123,
@@ -460,7 +460,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-001"
                 },
-                new MoList
+                new MO
                 {
                     Id = 4,
                     LpuId = 101112,
@@ -474,7 +474,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-004"
                 },
-                new MoList
+                new MO
                 {
                     Id = 6,
                     LpuId = 161718,
@@ -488,7 +488,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-006"
                 },
-                new MoList
+                new MO
                 {
                     Id = 8,
                     LpuId = 222324,
@@ -502,7 +502,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-008"
                 },
-                new MoList
+                new MO
                 {
                     Id = 10,
                     LpuId = 282930,
@@ -516,7 +516,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-010"
                 },
-                new MoList
+                new MO
                 {
                     Id = 12,
                     LpuId = 343536,
@@ -530,7 +530,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-012"
                 },
-                new MoList
+                new MO
                 {
                     Id = 14,
                     LpuId = 404142,
@@ -544,7 +544,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-014"
                 },
-                new MoList
+                new MO
                 {
                     Id = 16,
                     LpuId = 464748,
@@ -558,7 +558,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-016"
                 },
-                new MoList
+                new MO
                 {
                     Id = 18,
                     LpuId = 525354,
@@ -572,7 +572,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-018"
                 },
-                new MoList
+                new MO
                 {
                     Id = 20,
                     LpuId = 585960,
@@ -589,10 +589,10 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
             };
         }
 
-        public List<MoList> GetFilteredMoList_ByDistrictCodeEqualABC()
+        public List<MO> GetFilteredMoList_ByDistrictCodeEqualABC()
         {
-            return new List<MoList>{
-                new MoList
+            return new List<MO>{
+                new MO
                 {
                     Id = 1,
                     LpuId = 123,
@@ -606,7 +606,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-001"
                 },
-                new MoList
+                new MO
                 {
                     Id = 2,
                     LpuId = 456,
@@ -620,7 +620,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-002"
                 },
-                new MoList
+                new MO
                 {
                     Id = 3,
                     LpuId = 789,
@@ -634,7 +634,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-003"
                 },
-                new MoList
+                new MO
                 {
                     Id = 10,
                     LpuId = 282930,
@@ -648,7 +648,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-010"
                 },
-                new MoList
+                new MO
                 {
                     Id = 13,
                     LpuId = 373839,
@@ -662,7 +662,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-013"
                 },
-                new MoList
+                new MO
                 {
                     Id = 14,
                     LpuId = 404142,
@@ -676,7 +676,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-014"
                 },
-                new MoList
+                new MO
                 {
                     Id = 17,
                     LpuId = 495051,
@@ -690,7 +690,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-017"
                 },
-                new MoList
+                new MO
                 {
                     Id = 18,
                     LpuId = 525354,
@@ -704,7 +704,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-018"
                 },
-                new MoList
+                new MO
                 {
                     Id = 19,
                     LpuId = 555657,
@@ -718,7 +718,7 @@ namespace NAMO.Tests.Core.Domain.MOFiler.Data
                     IsActive = true,
                     OrdId = "ORD-019"
                 },
-                new MoList
+                new MO
                 {
                     Id = 20,
                     LpuId = 585960,

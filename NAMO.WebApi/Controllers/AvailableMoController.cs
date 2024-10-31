@@ -1,33 +1,101 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using NAMO.Application.Features.Patients.Queries.GetAvailableMoIds;
-using NAMO.Application.Interfaces;
-using NAMO.Domain.Common;
-using NAMO.Domain.Entities;
+using NAMO.WebApi.Common;
 using NLog;
+using System.Text.Json;
 
-namespace NAMO.WebApi.Controllers
+namespace NAMO.WebApi.Controllers;
+
+public class AvailableMoController
+    (IHttpContextAccessor httpContextAccessor,
+    IMediator mediator) : ApiControllerBase
 {
-    public class AvailableMoController : ApiControllerBase
+    private const string RequestStarted = "Начало выполнения запроса";
+    private const string RequestFinished = "Запрос завершился";
+
+    private const string RequestInvalid = "Пациент не прошел валидацию";
+
+    private static Logger _logger = LogManager.GetCurrentClassLogger();
+
+    [HttpPost]
+    public async Task<object> GetAvailableMoIds([FromBody] GetAvailableMoIdsQuery query)
     {
-        private readonly IHttpContextService _httpContextService;
-        private readonly IMediator _mediator;
-
-        public AvailableMoController(IHttpContextService httpContextService, IMediator mediator)
+        using (CustomLogger.FillInСustomLogs(httpContextAccessor))
         {
-            _httpContextService = httpContextService;
-            _mediator = mediator;
+            LogRequestStarted(query);
+
+            var validastor = new GetAvailableMoIdsValidator();
+            bool isValid = validastor.Validate(query);
+
+            if (!isValid) LogAndReturnFailure(RequestInvalid);
+
+            var result = await mediator.Send(query);
+
+            return result.IsSuccess ? LogAndReturnSuccess(result.Data) : LogAndReturnFailure(RequestFinished);
         }
+    }
 
-        [HttpPost]
-        public async Task<ActionResult<object>> GetAvailableMoIds([FromBody] PatientInfoRequest request)
+    /// <summary>
+    /// Записывает начальный лог
+    /// </summary>
+    private void LogRequestStarted(GetAvailableMoIdsQuery query)
+    {
+        var logEvent = new LogEventInfo(NLog.LogLevel.Info, null, $"{RequestStarted}");
+        // Добавляем в лог параметр "message-data", хранящий входные данные
+        logEvent.Properties["message-data"] = string.Join(JsonSerializer.Serialize(new
         {
-            using (ScopeContext.PushProperty("clientIpAddress", _httpContextService.GetClientIpAddresses()))
-            using (ScopeContext.PushProperty("requestEndpoint", _httpContextService.GetRequestEndpoint()))
-            using (ScopeContext.PushProperty("requestMethod", _httpContextService.GetRequestMethod()))
+            query.PolisS,
+            query.PolisN,
+            query.FirstName,
+            query.LastName,
+            query.MiddleName,
+            query.BirthDate,
+            query.Sex,
+            query.SNILS,
+        }));
+        _logger.Log(logEvent);
+    }
+
+    private GetAvailableMoIdsDto LogAndReturnSuccess(List<int> moIds)
+    {
+        var request =
+            new GetAvailableMoIdsDto
             {
-                return await _mediator.Send(new GetAvailableMoIdsQuery(request));
-            }
+                Organisations = moIds,
+                Status = 0,
+                Message = null
+            };
+
+        var logEvent = new LogEventInfo(NLog.LogLevel.Info, null, $"{RequestStarted}");
+        // Добавляем в лог параметр "message-data", хранящий выходные данные
+        logEvent.Properties["message-data"] = string.Join(JsonSerializer.Serialize(request));
+        _logger.Log(logEvent);
+        return request;
+    }
+
+    private GetAvailableMoIdsDto LogAndReturnFailure(string message, Exception? ex = null)
+    {
+        var emptyRequest =
+            new GetAvailableMoIdsDto
+            {
+                Organisations = new(),
+                Status = 0,
+                Message = null
+            };
+
+        if (ex is null)
+        {
+            var logEvent = new LogEventInfo(NLog.LogLevel.Info, null, $"{RequestStarted}");
+            // Добавляем в лог параметр "message-data", хранящий выходные данные
+            logEvent.Properties["message-data"] = string.Join(JsonSerializer.Serialize(emptyRequest));
+            _logger.Log(logEvent);
         }
+        else
+        {
+            _logger.Error(message, ex);
+        }
+
+        return emptyRequest;
     }
 }

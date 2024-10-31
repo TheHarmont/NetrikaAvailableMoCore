@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using NAMO.Domain.Entities.dbEntities;
 
 namespace NAMO.Persistence.Context;
@@ -16,7 +14,7 @@ public partial class ApplicationDBContext : DbContext
     {
     }
 
-    public virtual DbSet<MoList> MoLists { get; set; }
+    public virtual DbSet<MO> MoLists { get; set; }
 
     public virtual DbSet<SeparatePerson> SeparatePersons { get; set; }
 

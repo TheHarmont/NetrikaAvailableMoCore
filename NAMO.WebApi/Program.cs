@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.HttpOverrides;
 using NAMO.Application.Extensions;
-using NAMO.Application.Extensions.LayoutRenderers;
 using NAMO.Infrastructure.Extensions;
 using NAMO.Persistence.Extensions;
+using NAMO.WebApi.Common;
 using NLog;
 using NLog.Web;
 using System.Net;
@@ -10,10 +10,7 @@ using System.Net;
 //Загружаем кастомные классы для Nlog
 LogManager.Setup().SetupExtensions(s =>
 {
-    s.RegisterLayoutRenderer<OperationHashLayoutRenderer>("operationHash");
-    s.RegisterLayoutRenderer<ClientIpAddressLayoutRenderer>("clientIpAddress");
-    s.RegisterLayoutRenderer<RequestEndpointLayoutRenderer>("requestEndpoint");
-    s.RegisterLayoutRenderer<RequestMethodLayoutRenderer>("requestMethod");
+    s.RegisterLayoutRenderer<CustomLayoutRenderer>("custom");
 });
 
 var logger = NLog.LogManager.Setup()

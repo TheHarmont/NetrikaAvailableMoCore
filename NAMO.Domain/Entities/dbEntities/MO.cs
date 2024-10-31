@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace NAMO.Domain.Entities.dbEntities;
 
 [Table("MOList")]
-public partial class MoList
+public partial class MO
 {
     [Key]
     public int Id { get; set; }
